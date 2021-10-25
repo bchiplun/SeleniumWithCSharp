@@ -4,7 +4,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using SeleniumWithCsharp.Configuration;
 using SeleniumWithCsharp.CustomExcetption;
-using SeleniumWithCsharp.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +15,22 @@ namespace SeleniumWithCsharp.BaseClasses
     [TestClass]
     public class BaseClass
     {
+        private static ChromeOptions GetChromeOptions()
+        {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("start-maximized");
+            return options;
+        }
+
         private static IWebDriver GetChromeDriver()
         {
-            IWebDriver driver = new ChromeDriver();
+            IWebDriver driver = new ChromeDriver(GetChromeOptions());
             return driver;
         }
 
         private static IWebDriver GetFirefoxDriver()
         {
-            IWebDriver driver = new FirefoxDriver();
+            IWebDriver driver = new FirefoxDriver(); 
             return driver;
         }
 
@@ -47,13 +53,19 @@ namespace SeleniumWithCsharp.BaseClasses
                     throw new NoSuitableDriverFound("Unable to find driver for browser : " + ObjectRepo.Config.GetBrowser().ToString());
             }
 
+            //ObjectRepo.Driver.Manage().Window.Maximize();
+
         }
 
         [AssemblyCleanup]
         public static void TearDown()
         {
-            ObjectRepo.Driver.Close();
-            ObjectRepo.Driver.Quit();
+            if(ObjectRepo.Driver != null)
+            {
+                ObjectRepo.Driver.Close();
+                ObjectRepo.Driver.Quit();
+            }
+            
         }
     }
 }
