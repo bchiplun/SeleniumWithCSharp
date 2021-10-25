@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeleniumWithCsharp.Settings
+namespace SeleniumWithCsharp.Configuration
 {
     public class ObjectRepo
     {
