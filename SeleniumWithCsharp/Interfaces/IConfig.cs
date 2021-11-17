@@ -22,6 +22,10 @@ namespace SeleniumWithCsharp.Interfaces
         string GetIntermediateUrl();
 
         string GetBeginnerUrl();
+
+        int GetPageLoadTimeout();
+
+        int GetImplicitWait();
         
     }
 }

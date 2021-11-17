@@ -34,6 +34,7 @@ namespace SeleniumWithCsharp.BaseClasses
             return driver;
         }
 
+
         [AssemblyInitialize]
         public static void InitWebDriver(TestContext tc)
         {
@@ -54,6 +55,8 @@ namespace SeleniumWithCsharp.BaseClasses
             }
 
             //ObjectRepo.Driver.Manage().Window.Maximize();
+            ObjectRepo.Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(ObjectRepo.Config.GetPageLoadTimeout());
+            ObjectRepo.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(ObjectRepo.Config.GetImplicitWait()); 
 
         }
 

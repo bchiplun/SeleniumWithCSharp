@@ -24,9 +24,25 @@ namespace SeleniumWithCsharp.Configuration
             return (BrowserType)Enum.Parse(typeof(BrowserType), browser);
         }
 
+        public int GetImplicitWait()
+        {
+            var timeout = ConfigurationManager.AppSettings.Get("ImplicitWait");
+            if (timeout == null)
+                return 30;
+            return Convert.ToInt32(timeout);
+        }
+
         public string GetIntermediateUrl()
         {
             return ConfigurationManager.AppSettings.Get("IntermediateUrl");
+        }
+
+        public int GetPageLoadTimeout()
+        {
+            var timeout =  ConfigurationManager.AppSettings.Get("PageLoadTimeout");
+            if (timeout == null)
+                return 30;
+            return Convert.ToInt32(timeout);
         }
 
         public string GetPassword()

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace SeleniumWithCsharp.CustomExcetption
 {
-    public class NoSuitableDriverFound: Exception
+    class ButtonNotEnabled : Exception
     {
-        public NoSuitableDriverFound(string msg) : base(msg)
+        public ButtonNotEnabled(string msg) : base(msg)
         {
 
         }
-
     }
 }

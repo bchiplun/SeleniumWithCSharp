@@ -13,6 +13,7 @@ namespace SeleniumWithCsharp.Configuration
     {
         Chrome,
         Firefox,
-        IE
+        IE,
+        PhantomJS
     }
 }

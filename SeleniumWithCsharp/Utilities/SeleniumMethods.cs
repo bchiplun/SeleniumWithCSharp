@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumWithCsharp.Configuration;
+using SeleniumWithCsharp.CustomExcetption;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,5 +93,63 @@ namespace SeleniumWithCsharp.Utilities
         {
             return GetElement(locator).Selected;
         }
+
+        public static bool IsButtonEnabled(By locator)
+        {
+            return GetElement(locator).Enabled;
+        }
+
+        public static void ClickOnButton(By locator)
+        {
+            if(IsButtonEnabled(locator))
+            {
+                GetElement(locator).Click();
+            }
+            else
+            {
+                throw new ButtonNotEnabled("Button is not enabled with locator : " + locator.ToString());
+            }
+        }
+
+        public static void SelectFromDropdown(By selectLocator, int index)
+        {
+            SelectElement select = new SelectElement(GetElement(selectLocator));
+            select.SelectByIndex(index);
+        }
+
+        public static void SelectFromDropdown(By selectLocator, string selectText)
+        {
+            SelectElement select = new SelectElement(GetElement(selectLocator));
+            select.SelectByText(selectText);
+        }
+
+        public static void SelectFromDropdownByValue(By selectLocator, string selectTagValue)
+        {
+            SelectElement select = new SelectElement(GetElement(selectLocator));
+            select.SelectByValue(selectTagValue);
+        }
+
+        public static IList<string> GetAllItems(By selectLocator)
+        {
+            SelectElement select = new SelectElement(GetElement(selectLocator));
+            return select.Options.Select((x) => x.Text).ToList();
+        }
+
+        public static void TakeScreenShot(string filename = "Screen")
+        {
+            string currentPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\..\..\Screenshot";
+            if (filename.Equals("Screen"))
+            {
+                filename = filename + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss") + ".jpeg";
+                string path = currentPath + "\\" + filename;
+                ((ITakesScreenshot)ObjectRepo.Driver).GetScreenshot().SaveAsFile(currentPath + "\\" + filename, ScreenshotImageFormat.Jpeg);
+            }
+            else
+            {
+                ((ITakesScreenshot)ObjectRepo.Driver).GetScreenshot().SaveAsFile(currentPath + "\\" + filename+".jpeg", ScreenshotImageFormat.Jpeg);
+            }
+            
+        }
+
     }
 }
