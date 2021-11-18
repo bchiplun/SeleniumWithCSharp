@@ -64,6 +64,7 @@
     <Compile Include="CustomExcetption\ButtonNotEnabled.cs" />
     <Compile Include="CustomExcetption\NoSuitableDriverFound.cs" />
     <Compile Include="Interfaces\IConfig.cs" />
+    <Compile Include="TestScripts\RahulSheetyUrl\RSheetyurlAutomationCases.cs" />
     <Compile Include="TestScripts\SceenShot\TakeScreenshotTest.cs" />
     <Compile Include="TestScripts\ToolsQAUrlAutomation\LaunchToolsQAUrl.cs" />
     <Compile Include="TestScripts\ToolsQAUrlAutomation\ToolsQATests.cs" />

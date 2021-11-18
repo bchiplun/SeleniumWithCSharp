@@ -75,7 +75,7 @@ namespace SeleniumWithCsharp.TestScripts.ToolsQAUrlAutomation
             Thread.Sleep(1000);
             SeleniumMethods.SwitchToFrame(By.XPath("//iframe[@class='demo-frame']"));
             SeleniumMethods.Click(By.Id("speed-button"));
-            SeleniumMethods.SelectFromDropdown(By.Id("speed"), 4);
+            SeleniumMethods.Click(By.Id("ui-id-5"));
 
             SeleniumMethods.Click(By.Id("salutation-button"));
             SeleniumMethods.SelectFromDropdown(By.Id("salutation"), "Dr.");
@@ -91,8 +91,8 @@ namespace SeleniumWithCsharp.TestScripts.ToolsQAUrlAutomation
         public void GetCWD()
         {
             Console.WriteLine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            Console.WriteLine(System.AppDomain.CurrentDomain.BaseDirectory);
-            Console.WriteLine(System.Environment.CurrentDirectory);
+            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            Console.WriteLine(Environment.CurrentDirectory);
             Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
             Console.WriteLine(Environment.CurrentDirectory);
         }

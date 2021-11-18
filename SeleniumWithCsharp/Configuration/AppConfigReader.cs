@@ -50,6 +50,11 @@ namespace SeleniumWithCsharp.Configuration
             return ConfigurationManager.AppSettings.Get("Username");
         }
 
+        public string GetRahulShettyUrl()
+        {
+            return ConfigurationManager.AppSettings.Get("RahulShettyUrl");
+        }
+
         public string GetUsername()
         {
             return ConfigurationManager.AppSettings.Get("Password");

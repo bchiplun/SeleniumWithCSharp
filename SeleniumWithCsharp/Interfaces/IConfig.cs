@@ -23,6 +23,8 @@ namespace SeleniumWithCsharp.Interfaces
 
         string GetBeginnerUrl();
 
+        string GetRahulShettyUrl();
+
         int GetPageLoadTimeout();
 
         int GetImplicitWait();

@@ -4,6 +4,7 @@ using SeleniumWithCsharp.Configuration;
 using SeleniumWithCsharp.CustomExcetption;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,10 +23,10 @@ namespace SeleniumWithCsharp.Utilities
         {
             try
             {
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
                 return ObjectRepo.Driver.FindElements(locator).Count >= 1;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -33,7 +34,7 @@ namespace SeleniumWithCsharp.Utilities
 
         public static IWebElement GetElement(By locator)
         {
-            if(IsElementPresent(locator))
+            if (IsElementPresent(locator))
             {
                 return ObjectRepo.Driver.FindElement(locator);
             }
@@ -61,7 +62,7 @@ namespace SeleniumWithCsharp.Utilities
             {
                 GetElement(By.LinkText(text)).Click();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Unable to click on link with linktext " + ex);
             }
@@ -73,7 +74,7 @@ namespace SeleniumWithCsharp.Utilities
             {
                 GetElement(locator).SendKeys(text);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Error in executin " + ex);
             }
@@ -101,7 +102,7 @@ namespace SeleniumWithCsharp.Utilities
 
         public static void ClickOnButton(By locator)
         {
-            if(IsButtonEnabled(locator))
+            if (IsButtonEnabled(locator))
             {
                 GetElement(locator).Click();
             }
@@ -135,9 +136,40 @@ namespace SeleniumWithCsharp.Utilities
             return select.Options.Select((x) => x.Text).ToList();
         }
 
+        public static void MaximizeWindow()
+        {
+            ObjectRepo.Driver.Manage().Window.Maximize();
+        }
+
+
+        public static void SwitchToWindow(int index)
+        {
+            ReadOnlyCollection<string> windows    = ObjectRepo.Driver.WindowHandles;
+
+            if(windows.Count <= index)
+            {
+                throw new NoSuchWindowException("There is no window with index " + index);
+            }
+            ObjectRepo.Driver.SwitchTo().Window(windows[index]);
+            Thread.Sleep(1000);
+        }
+
+
+        public static void SwitchToParentWindow()
+        {
+            var windows = ObjectRepo.Driver.WindowHandles;
+
+            for(int i=windows.Count-1; i>0; i--)
+            {
+                ObjectRepo.Driver.SwitchTo().Window(windows[i]).Close();
+            }
+            ObjectRepo.Driver.SwitchTo().Window(windows[0]);
+        }
+
+
         public static void TakeScreenShot(string filename = "Screen")
         {
-            string currentPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\..\..\Screenshot";
+            string currentPath = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\Screenshot";
             if (filename.Equals("Screen"))
             {
                 filename = filename + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss") + ".jpeg";
@@ -146,9 +178,23 @@ namespace SeleniumWithCsharp.Utilities
             }
             else
             {
-                ((ITakesScreenshot)ObjectRepo.Driver).GetScreenshot().SaveAsFile(currentPath + "\\" + filename+".jpeg", ScreenshotImageFormat.Jpeg);
+                ((ITakesScreenshot)ObjectRepo.Driver).GetScreenshot().SaveAsFile(currentPath + "\\" + filename + ".jpeg", ScreenshotImageFormat.Jpeg);
             }
-            
+
+        }
+
+        public static void WaitTillElementIsPresent(By locator, int time)
+        {
+            WebDriverWait wait = new WebDriverWait(ObjectRepo.Driver, TimeSpan.FromSeconds(time));
+            wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(ElementNotVisibleException), typeof(StaleElementReferenceException));
+            wait.Until(x => x.FindElement(locator).Displayed);
+        }
+
+        public static void WaitTillElementIsClickable(By locator, int time)
+        {
+            WebDriverWait wait = new WebDriverWait(ObjectRepo.Driver, TimeSpan.FromSeconds(time));
+            wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(ElementNotVisibleException), typeof(StaleElementReferenceException), typeof(ElementNotInteractableException));
+            wait.Until(x => x.FindElement(locator).Enabled);
         }
 
     }
